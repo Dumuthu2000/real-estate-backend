@@ -1,11 +1,15 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import dotenv from 'dotenv'
+import dotenv from 'dotenv';
 dotenv.config();
-import cors from 'cors'
-import userRouter from './routes/user.router.js'
-import authRouter from './routes/auth.router.js'
+import cors from 'cors';
+import cookieParser from 'cookie-parser';
+import userRouter from './routes/user.router.js';
+import authRouter from './routes/auth.router.js';
+
 const app = express();
+// Use cookie-parser middleware
+app.use(cookieParser());
 
 mongoose.connect(process.env.MONGO_URL)
 .then(()=>{
@@ -15,7 +19,10 @@ mongoose.connect(process.env.MONGO_URL)
 });
 
 app.use(express.json())
-app.use(cors())
+app.use(cors({
+    origin: 'http://localhost:5173', // Your frontend URL
+    credentials: true
+  }))
 
 app.listen(5000,()=>{
     console.log(`Server is running on port ${5000}`)
