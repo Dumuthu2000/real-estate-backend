@@ -8,8 +8,7 @@ import userRouter from './routes/user.router.js';
 import authRouter from './routes/auth.router.js';
 
 const app = express();
-// Use cookie-parser middleware
-app.use(cookieParser());
+
 
 mongoose.connect(process.env.MONGO_URL)
 .then(()=>{
@@ -19,6 +18,8 @@ mongoose.connect(process.env.MONGO_URL)
 });
 
 app.use(express.json())
+app.use(cookieParser());
+
 app.use(cors({
     origin: 'http://localhost:5173', // Your frontend URL
     credentials: true
