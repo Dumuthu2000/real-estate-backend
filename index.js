@@ -6,6 +6,7 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import userRouter from './routes/user.router.js';
 import authRouter from './routes/auth.router.js';
+import listingRouter from './routes/listing.router.js';
 
 const app = express();
 
@@ -31,6 +32,7 @@ app.listen(5000,()=>{
 
 app.use('/api/user', userRouter)
 app.use('/api/auth', authRouter)
+app.use('/api/listing', listingRouter)
 
 //Error Handling middleware
 app.use((err, req, res, next)=>{
