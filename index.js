@@ -7,6 +7,7 @@ import cookieParser from 'cookie-parser';
 import userRouter from './routes/user.router.js';
 import authRouter from './routes/auth.router.js';
 import listingRouter from './routes/listing.router.js';
+import path from 'path'
 
 const app = express();
 
@@ -17,6 +18,8 @@ mongoose.connect(process.env.MONGO_URL)
 }).catch((err)=>{
     console.error(err)
 });
+
+const __dirname = path.resolve();
 
 app.use(express.json())
 app.use(cookieParser());
@@ -33,6 +36,12 @@ app.listen(5000,()=>{
 app.use('/api/user', userRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/listing', listingRouter)
+
+app.use(express.static(path.join(__dirname, '/client/dist')))
+
+app.get('*', (req, res)=>{
+    res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'))
+})
 
 //Error Handling middleware
 app.use((err, req, res, next)=>{
