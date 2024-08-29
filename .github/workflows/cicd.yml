@@ -20,7 +20,7 @@ jobs:
 
   deploy: 
     needs: build
-    run-on: self-hosted 
+    runs-on: self-hosted 
     steps: 
       - name: Pull image from docker hub
         run: docker pull dumuthu/nodejs-app:latest
