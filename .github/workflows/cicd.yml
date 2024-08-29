@@ -1,0 +1,28 @@
+name: Deploy Node Application
+
+on: 
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v4
+      - name: Login to docker hub
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build Docker Image
+        run: docker build -t dumuthu/nodejs-app .
+      - name: Publish Image to docker hub
+        run: docker push dumuthu/nodejs-app:latest
+
+  deploy: 
+    needs: build
+    run-on: self-hosted 
+    steps: 
+      - name: Pull image from docker hub
+        run: docker pull dumuthu/nodejs-app:latest
+      - name: Run Docker Container
+        run: docker run -d -p 5000:5000 --name nodejs-app-container -e MONGO-PASSWORD= `${{ secrets.MONGO_PASSWORD }}` dumuthu/nodejs-app
