@@ -25,10 +25,9 @@ app.use(express.json())
 app.use(cookieParser());
 
 app.use(cors({
-    origin: process.env.FRONTED_URL, // Your frontend URL
+    origin: 'http://localhost:5173', // Your frontend URL
     credentials: true
   }))
-
 const PORT = process.env.PORT
 app.listen(PORT || 5000,()=>{
     console.log(`Server is running on port ${PORT}`)
